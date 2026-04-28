@@ -1,2 +1,2 @@
 # Resort_Map
-This repository contains a cabana
+This repository contains a cabana resort booking website.
