@@ -13,42 +13,74 @@ interface ResortMapRenderProps {
 }
 
 const ResortMapRender = ({ grid }: ResortMapRenderProps) => {
+  const [selectedSpot, setSelectedSpot] = useState<{
+    columnIndex: number;
+    rowIndex: number;
+  } | null>(null);
 
-  
+  const [bookings, setBookings] = useState<BookingData[]>([]);
 
- const [selectedSpot, setSelectedSpot] = useState<{ columnIndex: number; rowIndex: number } | null>(null);
- const [bookings, setBookings] = useState<BookingData[]>([]);
-
- const handleNewBooking = (newBooking: BookingData) => {
-  setBookings(prev => [...prev, newBooking]);
-};
+  const handleNewBooking = (newBooking: BookingData) => {
+    setBookings((prev) => [...prev, newBooking]);
+  };
 
   return (
     <>
-     {selectedSpot && (
-        <BookingModal onBookingSuccess={handleNewBooking} columnIndex={selectedSpot.columnIndex} rowIndex={selectedSpot.rowIndex} onClose={() => setSelectedSpot(null)} />
+      {selectedSpot && (
+        <BookingModal
+          onBookingSuccess={handleNewBooking}
+          columnIndex={selectedSpot.columnIndex}
+          rowIndex={selectedSpot.rowIndex}
+          onClose={() => setSelectedSpot(null)}
+        />
       )}
-    <div className="h-full w-full mx-auto shadow-2xl p-2">
-      {grid.map((row, rowIndex) => (
-        <div className="m-3 flex gap-4" key={rowIndex}>
-          {row.map((icon, colIndex) => (
-            <span key={colIndex}>
-              <Image
-                onClick={icon === "W" && !bookingExists( colIndex, rowIndex, bookings ) 
-                  ? () => setSelectedSpot({ columnIndex: colIndex, rowIndex }) : undefined}
-                src={mapIcons(icon) || "/arrowEnd.png"}
-                alt=""
-                height={30}
-                width={30}
-                className={` ${icon === "W" && !bookingExists(colIndex, rowIndex, bookings) ? "animate-pulse cursor-pointer transition-all duration-300 hover:scale-125" : ""}
-                ${bookingExists( colIndex, rowIndex, bookings ) ? "opacity-50 cursor-not-allowed" : ""}
-                `}
-              />
-            </span>
-          ))}
-        </div>
-      ))}
-    </div>
+
+      <div className="h-full w-full mx-auto shadow-2xl p-2">
+        {grid.map((row, rowIndex) => (
+          <div className="flex" key={rowIndex}>
+            {row.map((icon, colIndex) => {
+              const iconData = mapIcons({
+                icon,
+                columnIndex: colIndex,
+                rowIndex,
+              });
+
+              const isBooked = bookingExists(colIndex, rowIndex, bookings);
+
+              const isClickable = icon === "W" && !isBooked;
+
+              return (
+                <span key={colIndex}>
+                  <Image
+                    onClick={
+                      isClickable
+                        ? () =>
+                            setSelectedSpot({
+                              columnIndex: colIndex,
+                              rowIndex,
+                            })
+                        : undefined
+                    }
+                    src={iconData.src}
+                    alt=""
+                    width={40}
+                    height={40}
+                    className={`
+                      ${iconData.className || ""}
+                      ${
+                        isClickable
+                          ? "animate-pulse cursor-pointer transition-all duration-300 hover:scale-115"
+                          : ""
+                      }
+                      ${isBooked ? "opacity-50 cursor-not-allowed" : ""}
+                    `}
+                  />
+                </span>
+              );
+            })}
+          </div>
+        ))}
+      </div>
     </>
   );
 };
