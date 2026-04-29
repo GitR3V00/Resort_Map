@@ -5,7 +5,7 @@ import { ResortMapIcons } from "../Types/types";
 export default function mapIcons(icon: ResortMapIcons){
  
     if(icon === '.'){
-        return "/arrowEnd.png";
+        return "/textureWater.png";
     }
         
     if(icon === 'p'){

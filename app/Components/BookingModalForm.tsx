@@ -1,0 +1,93 @@
+"use client"
+import { useState } from 'react'
+import handleBooking, { BookingData } from '../Functions/handleBooking'
+
+export interface BookingModalFormProps {
+    columnIndex: number;
+    rowIndex: number;
+    onClose?: () => void;
+    onBookingSuccess: (booking: BookingData) => void;
+}
+
+const BookingModalForm = ({ columnIndex, rowIndex, onClose, onBookingSuccess }: BookingModalFormProps) => {
+
+    const [guestName, setGuestName] = useState("");
+    const [roomNumber, setRoomNumber] = useState("");
+    const [error, setError] = useState<string | null>(null);
+    const [success, setSuccess] = useState<string | null>(null);
+    const [loading, setLoading] = useState(false);
+
+  return (
+ 
+    <div>
+         <form 
+         onSubmit={async (e) => {
+            e.preventDefault();
+            if (loading) return; 
+
+            setLoading(true);
+
+        const result = await handleBooking({ rowIndex, columnIndex: columnIndex, guestName, roomNumber });
+
+        setLoading(false);
+
+        if (!result.ok) {
+        setError(result.data.message);
+        return;
+    }
+    setError(null);
+    setSuccess(result.data.message);
+
+    onBookingSuccess({
+  rowIndex,
+  columnIndex,
+  guestName,
+  roomNumber
+});
+   
+            setGuestName("");
+            setRoomNumber("");
+             setTimeout(() => {
+        onClose?.();
+    }, 1500);
+        }}>
+                <label className="block mb-2">
+                    Name:
+                    <input 
+                        type="text" 
+                        className="border p-1 w-full" 
+                        value={guestName}
+                        onChange={(e) => setGuestName(e.target.value)}
+                    />
+                </label>
+                    <label className="block mb-2">
+                        Room:
+                        <input 
+                            type="text" 
+                            className="border p-1 w-full" 
+                            value={roomNumber}
+                            onChange={(e) => setRoomNumber(e.target.value)}
+                        />
+                    </label>
+                    {error && (
+    <p className="text-red-500 mt-2 p-2 border border-red-500 rounded bg-red-300">
+        {error}
+    </p>
+)}
+                    {success && (
+    <p className="text-green-500 mt-2 p-2 border border-green-500 rounded bg-green-300">
+        {success}
+    </p>
+)}
+                <button 
+                disabled={loading}
+                type="submit" className="bg-blue-500 text-white px-4 py-2 mt-4 rounded-lg cursor-pointer hover:bg-blue-400">
+                    Book Now
+                </button>
+            </form>
+    </div>
+   
+  )
+}
+
+export default BookingModalForm
