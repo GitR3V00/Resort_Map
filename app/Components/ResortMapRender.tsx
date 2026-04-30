@@ -7,6 +7,8 @@ import { useState } from "react";
 import BookingModal from "./BookingModal";
 import bookingExists from "../Functions/validateBookings";
 import { BookingData } from "../Functions/handleBooking";
+import NotAvailableBanner from "./NotAvailableBanner";
+import { motion } from "framer-motion";
 
 interface ResortMapRenderProps {
   grid: ResortMapIcons[][];
@@ -14,6 +16,11 @@ interface ResortMapRenderProps {
 
 const ResortMapRender = ({ grid }: ResortMapRenderProps) => {
   const [selectedSpot, setSelectedSpot] = useState<{
+    columnIndex: number;
+    rowIndex: number;
+  } | null>(null);
+
+  const [hoveredSpot, setHoveredSpot] = useState<{
     columnIndex: number;
     rowIndex: number;
   } | null>(null);
@@ -34,38 +41,51 @@ const ResortMapRender = ({ grid }: ResortMapRenderProps) => {
           onClose={() => setSelectedSpot(null)}
         />
       )}
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+        <div className="h-full w-full mx-auto shadow-2xl p-2">
+          {grid.map((row, rowIndex) => (
+            <div className="flex" key={rowIndex}>
+              {row.map((icon, colIndex) => {
+                const iconData = mapIcons({
+                  icon,
+                  columnIndex: colIndex,
+                  rowIndex,
+                });
 
-      <div className="h-full w-full mx-auto shadow-2xl p-2">
-        {grid.map((row, rowIndex) => (
-          <div className="flex" key={rowIndex}>
-            {row.map((icon, colIndex) => {
-              const iconData = mapIcons({
-                icon,
-                columnIndex: colIndex,
-                rowIndex,
-              });
+                const isBooked = bookingExists(colIndex, rowIndex, bookings);
 
-              const isBooked = bookingExists(colIndex, rowIndex, bookings);
+                const isClickable = icon === "W" && !isBooked;
 
-              const isClickable = icon === "W" && !isBooked;
-
-              return (
-                <span key={colIndex}>
-                  <Image
-                    onClick={
-                      isClickable
-                        ? () =>
-                            setSelectedSpot({
-                              columnIndex: colIndex,
-                              rowIndex,
-                            })
-                        : undefined
+                return (
+                  <span
+                    onMouseEnter={() =>
+                      setHoveredSpot({ columnIndex: colIndex, rowIndex })
                     }
-                    src={iconData.src}
-                    alt=""
-                    width={40}
-                    height={40}
-                    className={`
+                    onMouseLeave={() => setHoveredSpot(null)}
+                    key={colIndex}
+                  >
+                    {!isBooked &&
+                      icon === "W" &&
+                      hoveredSpot?.columnIndex === colIndex &&
+                      hoveredSpot?.rowIndex === rowIndex && (
+                        <NotAvailableBanner />
+                      )}
+
+                    <Image
+                      onClick={
+                        isClickable
+                          ? () =>
+                              setSelectedSpot({
+                                columnIndex: colIndex,
+                                rowIndex,
+                              })
+                          : undefined
+                      }
+                      src={iconData.src}
+                      alt=""
+                      width={40}
+                      height={40}
+                      className={`
                       ${iconData.className || ""}
                       ${
                         isClickable
@@ -74,13 +94,14 @@ const ResortMapRender = ({ grid }: ResortMapRenderProps) => {
                       }
                       ${isBooked ? "opacity-50 cursor-not-allowed" : ""}
                     `}
-                  />
-                </span>
-              );
-            })}
-          </div>
-        ))}
-      </div>
+                    />
+                  </span>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+      </motion.div>
     </>
   );
 };
