@@ -60,3 +60,7 @@ I did also make a function which was to map the Icons or pictures based on the c
 The UI was made clean but but basic, that being said if this was a larger app/ website this would have follwed a set theme through out the pages and been made responsive for bigger and smaller devices.
 
 I also considered using libraries such as TanStack/ React Query, Zustand and Toast however I did not see the need due to the scale of the app. I did end up using Framer Motion to have a clean look upon loading.
+
+## Screenshot
+
+![Resort Map](./screenshot.png)
