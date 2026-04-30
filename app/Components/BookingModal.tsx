@@ -1,5 +1,3 @@
-"use client";
-
 import { BookingData } from "../Functions/handleBooking";
 import BookingModalForm from "./BookingModalForm";
 import { motion } from "framer-motion";
@@ -18,8 +16,8 @@ const BookingModal = ({
   onBookingSuccess,
 }: BookingModalProps) => {
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <div className="w-full h-full absolute inset-0 bg-black/50 justify-center items-center flex z-50">
+    <div className="w-full h-full absolute inset-0 bg-black/50 justify-center items-center flex z-50">
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
         <div className="relative min-w-96 min-h-64 bg-white p-4 rounded-lg shadow-lg">
           <div className="absolute top-0 right-0 p-2">
             <button
@@ -37,8 +35,8 @@ const BookingModal = ({
             onBookingSuccess={onBookingSuccess}
           />
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 };
 

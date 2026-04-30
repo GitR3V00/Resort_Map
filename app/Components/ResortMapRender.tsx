@@ -64,7 +64,7 @@ const ResortMapRender = ({ grid }: ResortMapRenderProps) => {
                     onMouseLeave={() => setHoveredSpot(null)}
                     key={colIndex}
                   >
-                    {!isBooked &&
+                    {isBooked &&
                       icon === "W" &&
                       hoveredSpot?.columnIndex === colIndex &&
                       hoveredSpot?.rowIndex === rowIndex && (
@@ -92,7 +92,7 @@ const ResortMapRender = ({ grid }: ResortMapRenderProps) => {
                           ? "animate-pulse cursor-pointer transition-all duration-300 hover:scale-115"
                           : ""
                       }
-                      ${isBooked ? "opacity-50 cursor-not-allowed" : ""}
+                      ${isBooked ? "opacity-50 cursor-not-allowed scale-90" : ""}
                     `}
                     />
                   </span>
