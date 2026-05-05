@@ -1,4 +1,5 @@
-import { BookingData } from "./handleBooking";
+import { BookingData } from "../Types/types";
+
 
 export default function bookingExists(
   colIndex: number,

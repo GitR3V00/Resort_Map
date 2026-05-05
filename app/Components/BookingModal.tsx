@@ -1,4 +1,5 @@
-import { BookingData } from "../Functions/handleBooking";
+
+import { BookingData } from "../Types/types";
 import BookingModalForm from "./BookingModalForm";
 import { motion } from "framer-motion";
 

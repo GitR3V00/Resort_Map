@@ -1,6 +1,7 @@
 import { ResortMapIcons } from "../Types/types";
 import ResortMapRender from "./ResortMapRender";
 import mapBackground from "@/public/parchmentBasic.png";
+import { getMap } from "../Functions/getMap";
 
 const parseMap = (map: string): ResortMapIcons[][] => {
   return map
@@ -9,11 +10,9 @@ const parseMap = (map: string): ResortMapIcons[][] => {
     .map((row) => row.trimEnd().split("") as ResortMapIcons[]);
 };
 
-const ResortMap = async () => {
-  const res = await fetch("http://localhost:3000/api/map");
-
-  const data = await res.json();
-  const grid = parseMap(data.map);
+const ResortMap = () => {
+  const mapData = getMap();
+  const grid = parseMap(mapData);
 
   return (
     <div

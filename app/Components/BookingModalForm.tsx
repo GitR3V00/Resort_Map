@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
-import handleBooking, { BookingData } from "../Functions/handleBooking";
+import handleBooking from "../Functions/handleBooking";
+import { BookingData } from "../Types/types";
 
 export interface BookingModalFormProps {
   columnIndex: number;
@@ -40,11 +41,11 @@ const BookingModalForm = ({
           setLoading(false);
 
           if (!result.ok) {
-            setError(result.data.message);
-            return;
-          }
+  setError(result.error);
+  return;
+}
           setError(null);
-          setSuccess(result.data.message);
+          setSuccess(result.data?.message ?? "Booking successful");
 
           onBookingSuccess({
             rowIndex,

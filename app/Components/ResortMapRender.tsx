@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import mapIcons from "../Functions/renderMapIcons";
-import { ResortMapIcons } from "../Types/types";
+import { BookingData, ResortMapIcons } from "../Types/types";
 import { useState } from "react";
 import BookingModal from "./BookingModal";
 import bookingExists from "../Functions/validateBookings";
-import { BookingData } from "../Functions/handleBooking";
+
 import NotAvailableBanner from "./NotAvailableBanner";
 import { motion } from "framer-motion";
 

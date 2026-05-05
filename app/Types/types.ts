@@ -4,3 +4,23 @@ export type IconData = {
   src: string;
   className?: string;
 };
+
+export interface BookingData {
+  guestName: string;
+  roomNumber: string;
+  columnIndex: number;
+  rowIndex: number;
+}
+
+export type BookingResult =
+  | {
+      ok: true;
+      data: {
+        message: string;
+        guestBookings: BookingData[];
+      };
+    }
+  | {
+      ok: false;
+      error: string;
+    };
