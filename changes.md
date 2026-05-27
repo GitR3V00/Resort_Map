@@ -1,3 +1,19 @@
+## CHANGES TO MAKE
+-User tests on booking and map
+
+## MARCIN FEEDBACK 
+Security concern: There is a potential security vulnerability that needs to be addressed.
+
+Build failure: npm run build is currently failing and blocking production builds.
+
+Insufficient error handling: Several HTTP requests lack proper error handling, which may lead to unhandled failures.
+
+Spec non-compliance: The implementation does not follow the required specification that “the backend reads map layout and booking/guest data from files specified via CLI options.”
+
+Missing linting: The project does not currently enforce linting, reducing code consistency and quality control.
+
+Invalid validation logic: The validation implemented in route.ts does not appear to be correct or aligned with expected input rules.
+
 ## CHANGES MADE SINCE LAST SUBMISSION.
 
 ## NPM Build - Fixed Errors.
@@ -29,4 +45,20 @@ example start up: npm run start -- --map map.ascii --bookings bookings.json
 - Checks if the cabana has already been booked or not.
 - Checks for any duplicate bookings for the guest.
 - Checks if the guest is booked onto any other Cabana's at that time.
+
+## Security Concern Change
+- guestBookings are no longer returned in the response on success to stop guest details being shown, only the Success Message is.
+
+## Testing Implementation
+
+Vitest and Testing Library have been installed to introduce automated testing for key functionality within the application, with an initial focus on the booking logic and Map rendering.
+
+handleBooking.test.ts has been created to test the core API interaction logic, covering:
+
+Successful API response (booking created successfully)
+API error response (e.g. invalid or rejected booking)
+Network failure / exception handling (e.g. fetch failure)
+
+These tests ensure that handleBooking correctly handles different response scenarios and consistently returns a predictable structure to the UI layer.
+
 

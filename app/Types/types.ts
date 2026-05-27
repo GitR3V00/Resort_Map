@@ -17,7 +17,6 @@ export type BookingResult =
       ok: true;
       data: {
         message: string;
-        guestBookings: BookingData[];
       };
     }
   | {
