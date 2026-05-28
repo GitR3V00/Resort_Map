@@ -1,14 +1,7 @@
-import { ResortMapIcons } from "../Types/types";
 import ResortMapRender from "./ResortMapRender";
 import mapBackground from "@/public/parchmentBasic.png";
 import { getMap } from "../Functions/getMap";
-
-const parseMap = (map: string): ResortMapIcons[][] => {
-  return map
-    .trim()
-    .split(/\r?\n/)
-    .map((row) => row.trimEnd().split("") as ResortMapIcons[]);
-};
+import { parseMap } from "../Functions/parseMap";
 
 const ResortMap = () => {
   const mapData = getMap();

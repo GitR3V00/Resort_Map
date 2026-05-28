@@ -10,7 +10,7 @@ import bookingExists from "../Functions/validateBookings";
 import NotAvailableBanner from "./NotAvailableBanner";
 import { motion } from "framer-motion";
 
-interface ResortMapRenderProps {
+export interface ResortMapRenderProps {
   grid: ResortMapIcons[][];
 }
 
@@ -72,6 +72,7 @@ const ResortMapRender = ({ grid }: ResortMapRenderProps) => {
                       )}
 
                     <Image
+                      data-testid={`cell-${rowIndex}-${colIndex}`}
                       onClick={
                         isClickable
                           ? () =>
@@ -82,7 +83,7 @@ const ResortMapRender = ({ grid }: ResortMapRenderProps) => {
                           : undefined
                       }
                       src={iconData.src}
-                      alt=""
+                      alt={`spot-${rowIndex}-${colIndex}`}
                       width={40}
                       height={40}
                       className={`

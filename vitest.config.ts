@@ -4,11 +4,16 @@ import path from "path";
 export default defineConfig({
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./"),
+      "next/image": path.resolve(
+        __dirname,
+        "./test/mocks/nextImageMock.tsx"
+      ),
     },
   },
+
   test: {
     environment: "jsdom",
+    globals: true,
     setupFiles: "./vitest.setup.ts",
   },
 });
