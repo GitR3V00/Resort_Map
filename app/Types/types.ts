@@ -23,3 +23,8 @@ export type BookingResult =
       ok: false;
       error: string;
     };
+
+ export type Spot = {
+  columnIndex: number;
+  rowIndex: number;
+};

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import mapIcons from "../Functions/renderMapIcons";
-import { BookingData, ResortMapIcons } from "../Types/types";
+import { BookingData, ResortMapIcons, Spot } from "../Types/types";
 import { useState } from "react";
 import BookingModal from "./BookingModal";
 import bookingExists from "../Functions/validateBookings";
@@ -15,15 +15,9 @@ export interface ResortMapRenderProps {
 }
 
 const ResortMapRender = ({ grid }: ResortMapRenderProps) => {
-  const [selectedSpot, setSelectedSpot] = useState<{
-    columnIndex: number;
-    rowIndex: number;
-  } | null>(null);
+  const [selectedSpot, setSelectedSpot] = useState<Spot | null>(null);
 
-  const [hoveredSpot, setHoveredSpot] = useState<{
-    columnIndex: number;
-    rowIndex: number;
-  } | null>(null);
+  const [hoveredSpot, setHoveredSpot] = useState<Spot | null>(null);
 
   const [bookings, setBookings] = useState<BookingData[]>([]);
 
@@ -54,22 +48,25 @@ const ResortMapRender = ({ grid }: ResortMapRenderProps) => {
 
                 const isBooked = bookingExists(colIndex, rowIndex, bookings);
 
-                const isClickable = icon === "W" && !isBooked;
+                const cabanaSpot = icon === "W";
+                const isClickable = cabanaSpot && !isBooked;
+
+                const isHovered =
+                  hoveredSpot?.columnIndex === colIndex &&
+                  hoveredSpot?.rowIndex === rowIndex;
+
+                const showNotAvailableBanner =
+                  cabanaSpot && isBooked && isHovered;
 
                 return (
                   <span
+                    key={colIndex}
                     onMouseEnter={() =>
                       setHoveredSpot({ columnIndex: colIndex, rowIndex })
                     }
                     onMouseLeave={() => setHoveredSpot(null)}
-                    key={colIndex}
                   >
-                    {isBooked &&
-                      icon === "W" &&
-                      hoveredSpot?.columnIndex === colIndex &&
-                      hoveredSpot?.rowIndex === rowIndex && (
-                        <NotAvailableBanner />
-                      )}
+                    {showNotAvailableBanner && <NotAvailableBanner />}
 
                     <Image
                       data-testid={`cell-${rowIndex}-${colIndex}`}

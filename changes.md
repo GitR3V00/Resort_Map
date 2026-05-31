@@ -1,7 +1,3 @@
-## CHANGES TO MAKE
-
--User tests on booking and map
-
 ## MARCIN FEEDBACK
 
 Security concern: There is a potential security vulnerability that needs to be addressed.
@@ -79,3 +75,8 @@ Tests the main map rendering component, verifying that:
 The component renders successfully with a valid grid
 mapIcons is called with the correct icon and coordinate data
 Booking modal opens correctly when clicking an available “W” spot
+
+## Extra additions
+
+New type 'Spot' was created to reduyce duplicated code in the Hovered and Selected Spot States.
+Variables named within the grid map so this is cleaner - Example - cabanaSpot, isHovered and showNotAvailableBanner.
