@@ -12,9 +12,7 @@ export interface ResortMapRenderProps {
 
 const ResortMapRender = ({ grid }: ResortMapRenderProps) => {
   const [selectedSpot, setSelectedSpot] = useState<Spot | null>(null);
-
   const [hoveredSpot, setHoveredSpot] = useState<Spot | null>(null);
-
   const [bookings, setBookings] = useState<BookingData[]>([]);
 
   const handleNewBooking = (newBooking: BookingData) => {
@@ -36,15 +34,15 @@ const ResortMapRender = ({ grid }: ResortMapRenderProps) => {
          {grid.map((row, rowIndex) => (
     <div className="flex" key={rowIndex}>
       {row.map((icon, colIndex) => (
-      <MapCell
-        key={colIndex}
-        icon={icon}
-        rowIndex={rowIndex}
-        colIndex={colIndex}
-        bookings={bookings}
-        hoveredSpot={hoveredSpot}
-        setHoveredSpot={setHoveredSpot}
-        setSelectedSpot={setSelectedSpot}
+       <MapCell
+         key={colIndex}
+         icon={icon}
+         rowIndex={rowIndex}
+         colIndex={colIndex}
+         bookings={bookings}
+         hoveredSpot={hoveredSpot}
+         setHoveredSpot={setHoveredSpot}
+         setSelectedSpot={setSelectedSpot}
       />
     ))}
   </div>
