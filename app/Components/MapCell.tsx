@@ -1,5 +1,5 @@
 import Image from "next/image";
-import mapIcons from "../Functions/renderMapIcons";
+import renderMapIcons from "../Functions/renderMapIcons";
 import NotAvailableBanner from "./NotAvailableBanner";
 import { getCellState } from "../Functions/getCellState";
 import { ResortMapIcons, BookingData, Spot } from "../Types/types";
@@ -23,7 +23,7 @@ const MapCell = ({
   setHoveredSpot,
   setSelectedSpot,
 }: MapCellProps) => {
-  const iconData = mapIcons({
+  const iconData = renderMapIcons({
     icon,
     columnIndex: colIndex,
     rowIndex,

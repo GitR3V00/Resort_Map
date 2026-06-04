@@ -6,7 +6,7 @@ interface RenderMapIconProps {
   rowIndex: number;
 }
 
-export default function mapIcons({
+export default function renderMapIcons({
   icon,
   columnIndex,
   rowIndex,
@@ -33,6 +33,10 @@ export default function mapIcons({
     return { src: "/arrowSplit.png", className: "rotate-90" };
   }
 
+   if (columnIndex === 11 && rowIndex === 2) {
+    return { src: "/arrowCrossing.png", className: "rotate-90" };
+  }
+
   if (columnIndex === 13 && rowIndex === 2) {
     return { src: "/arrowSplit.png", className: "rotate-90" };
   }
@@ -53,9 +57,15 @@ export default function mapIcons({
     return { src: "/arrowSplit.png", className: "rotate-90" };
   }
 
+   if (columnIndex === 11 && rowIndex === 2) {
+    return { src: "/arrowSplit.png", className: "rotate-90" };
+  }
+
   if (icon === "#" && rowIndex === 2) {
     return { src: "/arrowStraight.png", className: "rotate-90" };
   }
+
+  
 
   // =========================
   // ROW 5
@@ -82,6 +92,10 @@ export default function mapIcons({
 
   if (columnIndex === 16 && rowIndex === 5) {
     return { src: "/arrowSplit.png", className: "rotate-90" };
+  }
+
+   if (columnIndex === 17 && rowIndex === 5) {
+    return { src: "/arrowSplit.png", className: "rotate-270" };
   }
 
   if (columnIndex === 18 && rowIndex === 5) {
