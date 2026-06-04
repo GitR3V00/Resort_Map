@@ -1,12 +1,8 @@
 import Image from "next/image";
 import mapIcons from "../Functions/renderMapIcons";
-import bookingExists from "../Functions/validateBookings";
-import {
-  ResortMapIcons,
-  BookingData,
-  Spot,
-} from "../Types/types";
 import NotAvailableBanner from "./NotAvailableBanner";
+import { getCellState } from "../Functions/getCellState";
+import { ResortMapIcons, BookingData, Spot } from "../Types/types";
 
 interface MapCellProps {
   icon: ResortMapIcons;
@@ -27,32 +23,28 @@ const MapCell = ({
   setHoveredSpot,
   setSelectedSpot,
 }: MapCellProps) => {
-  
-    const iconData = mapIcons({
+  const iconData = mapIcons({
     icon,
     columnIndex: colIndex,
     rowIndex,
   });
 
-  const isBooked = bookingExists(colIndex, rowIndex, bookings);
-
-  const cabanaSpot = icon === "W";
-  const isClickable = cabanaSpot && !isBooked;
-
-  const isHovered =
-    hoveredSpot?.columnIndex === colIndex &&
-    hoveredSpot?.rowIndex === rowIndex;
-
-  const showNotAvailableBanner =
-    cabanaSpot && isBooked && isHovered;
+  const {
+    isBooked,
+    isClickable,
+    showNotAvailableBanner,
+  } = getCellState({
+    icon,
+    colIndex,
+    rowIndex,
+    bookings,
+    hoveredSpot,
+  });
 
   return (
     <span
       onMouseEnter={() =>
-        setHoveredSpot({
-          columnIndex: colIndex,
-          rowIndex,
-        })
+        setHoveredSpot({ columnIndex: colIndex, rowIndex })
       }
       onMouseLeave={() => setHoveredSpot(null)}
     >
@@ -75,16 +67,8 @@ const MapCell = ({
         }
         className={`
           ${iconData.className || ""}
-          ${
-            isClickable
-              ? "animate-pulse cursor-pointer transition-all duration-300 hover:scale-115"
-              : ""
-          }
-          ${
-            isBooked
-              ? "opacity-50 cursor-not-allowed scale-90"
-              : ""
-          }
+          ${isClickable ? "animate-pulse cursor-pointer transition-all duration-300 hover:scale-115" : ""}
+          ${isBooked ? "opacity-50 cursor-not-allowed scale-90" : ""}
         `}
       />
     </span>
