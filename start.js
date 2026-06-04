@@ -3,23 +3,23 @@ const { spawn } = require("child_process");
 
 function getArg(flag) {
   const index = process.argv.indexOf(flag);
+
   if (index === -1) return undefined;
-  return process.argv[index + 1];
+
+  const value = process.argv[index + 1];
+
+  if (!value || value.startsWith("--")) {
+    throw new Error(`Missing value for ${flag}`);
+  }
+
+  return value;
 }
 
-const map = getArg("--map") ?? "map.ascii";
-const bookings = getArg("--bookings") ?? "bookings.json";
+process.env.MAP_PATH = getArg("--map") ?? "map.ascii";
+process.env.BOOKINGS_PATH = getArg("--bookings") ?? "bookings.json";
 
-console.log("Starting app with:");
-console.log("Map:", map);
-console.log("Bookings:", bookings);
-
-
-process.env.MAP_PATH = map;
-process.env.BOOKINGS_PATH = bookings;
-
-spawn("next", ["start"], {
+spawn("npx", ["next", "dev"], {
   stdio: "inherit",
-  shell: true,
   env: process.env,
+  shell: true,
 });
