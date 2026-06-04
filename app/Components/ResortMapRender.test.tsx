@@ -16,7 +16,7 @@ vi.mock("../Functions/validateBookings", () => ({
 
 vi.mock("next/image", () => ({
   default: (props: ImgHTMLAttributes<HTMLImageElement>) => (
-    <img {...props} alt=""/>
+    <img {...props}/>
   ),
 }));
 
