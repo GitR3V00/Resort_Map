@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
+import type { ImgHTMLAttributes } from "react";
 
 // =====================================================
 // MOCKS
@@ -14,7 +15,9 @@ vi.mock("../Functions/validateBookings", () => ({
 }));
 
 vi.mock("next/image", () => ({
-  default: (props: any) => <img {...props} />,
+  default: (props: ImgHTMLAttributes<HTMLImageElement>) => (
+    <img {...props} />
+  ),
 }));
 
 vi.mock("framer-motion", () => ({
